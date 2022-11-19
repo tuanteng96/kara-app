@@ -621,7 +621,13 @@ export default class employeeServiceDetail extends React.Component {
                 </div>
                 <div className="sheet-pay-body__btn d-flex">
                   <button
-                    className={`page-btn-order btn-submit-order bg-primary mr-10px`}
+                    className={`page-btn-order btn-submit-order mr-10px`}
+                    onClick={() => this.closeSheet()}
+                  >
+                    <span>Đóng</span>
+                  </button>
+                  <button
+                    className={`page-btn-order btn-submit-order bg-primary`}
                     onClick={() => this.updateDesc(itemDetail.ID)}
                   >
                     <span>Cập nhập</span>
@@ -632,7 +638,7 @@ export default class employeeServiceDetail extends React.Component {
                       <div className="loading-icon__item item-4"></div>
                     </div>
                   </button>
-                  {itemDetail && itemDetail.Status === "done" ? (
+                  {/* {itemDetail && itemDetail.Status === "done" ? (
                     <button
                       className={`page-btn-order btn-submit-order`}
                       onClick={() => this.closeSheet()}
@@ -660,7 +666,7 @@ export default class employeeServiceDetail extends React.Component {
                         <div className="loading-icon__item item-4"></div>
                       </div>
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

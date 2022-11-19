@@ -1,56 +1,59 @@
-import { Button, Link, PageContent, Sheet } from 'framework7-react'
-import moment from 'moment'
-import React, { useState, useEffect } from 'react'
-import Skeleton from 'react-loading-skeleton'
-import PageNoData from '../../../components/PageNoData'
-import { checkImageProduct, formatPriceVietnamese } from '../../../constants/format'
-import UserService from '../../../service/user.service'
+import { Button, Link, PageContent, Sheet } from "framework7-react";
+import moment from "moment";
+import React, { useState, useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
+import PageNoData from "../../../components/PageNoData";
+import {
+  checkImageProduct,
+  formatPriceVietnamese,
+} from "../../../constants/format";
+import UserService from "../../../service/user.service";
 import ReactHtmlParser from "react-html-parser";
+import OrderItem from "./OrderItem";
 
 function OrderList(props) {
-  const [loading, setLoading] = useState(false)
-  const [ListOrder, setListOrder] = useState([])
-  const [loadingPay, setLoadingPay] = useState(false)
-  const [ValuePay, setValuePay] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [ListOrder, setListOrder] = useState([]);
+  const [loadingPay, setLoadingPay] = useState(false);
+  const [ValuePay, setValuePay] = useState("");
 
   useEffect(() => {
-    getOrderAll()
-    getInfoPay()
-  }, [])
+    getOrderAll();
+    getInfoPay();
+  }, []);
 
   const getInfoPay = () => {
-    setLoadingPay(true)
-    UserService.getConfig('App.thanhtoan')
+    setLoadingPay(true);
+    UserService.getConfig("App.thanhtoan")
       .then(({ data }) => {
-        setValuePay(data.data && data.data[0]?.ValueLines)
-        setLoadingPay(false)
+        setValuePay(data.data && data.data[0]?.ValueLines);
+        setLoadingPay(false);
       })
-      .catch((error) => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
   const getOrderAll = () => {
-    setLoading(true)
-    UserService
-      .getOrderAll2()
+    setLoading(true);
+    UserService.getOrderAll2()
       .then(({ data }) => {
-        setListOrder(data)
-        setLoading(false)
+        setListOrder(data);
+        setLoading(false);
       })
-      .catch((er) => console.log(er))
-  }
+      .catch((er) => console.log(er));
+  };
 
   const checkStatus = (item) => {
-    if (item.Status === 'finish') {
-      return 'success'
+    if (item.Status === "finish") {
+      return "success";
     }
-    if (item.Status === 'cancel' && item.IsReturn !== 0) {
-      return 'primary'
+    if (item.Status === "cancel" && item.IsReturn !== 0) {
+      return "primary";
     }
-    if (item.Status === 'cancel') {
-      return 'danger'
+    if (item.Status === "cancel") {
+      return "danger";
     }
-    return 'warning'
-  }
+    return "warning";
+  };
 
   return (
     <div className="page-order">
@@ -133,17 +136,7 @@ function OrderList(props) {
                     <div className="list-sub">
                       {item.Items &&
                         item.Items.map((sub, idx) => (
-                          <div className="list-sub-item" key={idx}>
-                            <div className="img">
-                              <img src={checkImageProduct(sub.ProdThumb)} />
-                            </div>
-                            <div className="text">
-                              <div className="text-name">{sub.ProdTitle}</div>
-                              <div className="text-count">
-                                SL <b className="font-number">x{sub.Qty}</b>
-                              </div>
-                            </div>
-                          </div>
+                          <OrderItem key={idx} sub={sub} />
                         ))}
                     </div>
                   </div>
@@ -362,4 +355,4 @@ function OrderList(props) {
   );
 }
 
-export default OrderList
+export default OrderList;

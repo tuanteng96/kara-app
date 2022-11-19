@@ -30,7 +30,7 @@ function EmployeeServiceItem({
   handleHistory,
   handleDiary,
 }) {
-  const [tabCurrent, setTabCurrent] = useState("tab-1");
+  const [tabCurrent, setTabCurrent] = useState();
   const refPhotoWeb = useRef();
   const refPhotoReal = useRef();
   const [PhotoWeb, setPhotoWeb] = useState([]);
@@ -46,7 +46,8 @@ function EmployeeServiceItem({
       ).map((item) => `${SERVER_APP}/upload/image/${item.Src}`);
       setPhotoWeb(newPhotoWeb);
       setPhotoReal(newPhotoReal);
-      if(newPhotoReal && newPhotoReal.length > 0) setTabCurrent("tab-2");
+      if (newPhotoReal && newPhotoReal.length > 0) setTabCurrent("tab-2");
+      setTabCurrent('tab-1');
     }
   }, [item]);
 
@@ -72,14 +73,15 @@ function EmployeeServiceItem({
 
         {tabCurrent === "tab-1" && (
           <div className="position-relative">
-            <Swiper
-              navigation
-              params={{
-                autoHeight: true,
-              }}
-            >
-              {PhotoWeb &&
-                PhotoWeb.map((item, index) => (
+            {PhotoWeb && (
+              <Swiper
+                navigation
+                // pagination
+                params={{
+                  autoHeight: true,
+                }}
+              >
+                {PhotoWeb.map((item, index) => (
                   <SwiperSlide key={index}>
                     <img
                       src={item}
@@ -88,7 +90,9 @@ function EmployeeServiceItem({
                     />
                   </SwiperSlide>
                 ))}
-            </Swiper>
+              </Swiper>
+            )}
+
             <PhotoBrowser
               photos={PhotoWeb}
               ref={refPhotoWeb}
@@ -100,6 +104,7 @@ function EmployeeServiceItem({
           <div>
             <Swiper
               navigation
+              // pagination
               params={{
                 autoHeight: true,
               }}
