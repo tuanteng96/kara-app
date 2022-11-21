@@ -15,9 +15,7 @@ function OrderItem({ sub }) {
 
   useEffect(() => {
     if (sub.ActualPhoto && sub.ActualPhoto.length > 0) {
-      setPhotoWeb(
-        sub.ActualPhoto.map((o) => `${SERVER_APP}/upload/image/${o.Src}`)
-      );
+      setPhotoWeb(sub.ActualPhoto.map((o) => o.Src));
     } else {
       setPhotoWeb([]);
     }
